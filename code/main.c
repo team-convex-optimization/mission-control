@@ -9,9 +9,9 @@
 int log_level = LOG_INFO | LOG_DEBUG | LOG_ERROR;
 
 #define LINES_PER_CHIP 32
-const int PINS[PIN_COUNT] = {73, 138, 140, 7, 8};
+const int PINS[PIN_COUNT] = {140, 7, 77};
 
-int main(int argc, const char *argv[]) 
+int main(int argc, const char *argv[], const char *env[]) 
 {
     if (log_init("mission_control", "./log.txt") != 0)
     {

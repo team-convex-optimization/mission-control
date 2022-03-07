@@ -17,7 +17,7 @@ clang \
     -lgpiod \
     ../code/*.c \
     tco_libd.a \
-    -o tco_mission_control.bin \
+    -o TCO_mission_control.bin \
     -O 
 popd
 

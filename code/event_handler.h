@@ -1,8 +1,7 @@
 #include <gpiod.h>
 #include <stdio.h>
 
-
-#define PIN_COUNT 5
+#define PIN_COUNT 3
 extern const int PINS[PIN_COUNT];
 
 /**
