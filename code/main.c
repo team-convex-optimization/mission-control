@@ -47,8 +47,10 @@ int main(int argc, const char *argv[], const char *env[])
                     log_error("failed to get event on line");
                     break;
                 case 1:
-                    if (gpiod_line_event_read(lines[i].line, &event) < 1) {
-                        log_error("failed to read event for pin %d", i);
+                    while (gpiod_line_event_wait(lines[i].line, &timeout) == 1) {
+                        if (gpiod_line_event_read(lines[i].line, &event) != 0) {
+                            log_error("failed to read event for pin %d", i);
+                        }
                     }
                     handle_event(PINS[i], &event);
                 default:
