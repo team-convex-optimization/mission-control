@@ -14,6 +14,7 @@ clang \
     -D _DEFAULT_SOURCE \
     -I /usr/include \
     -I ../lib/tco_libd/include \
+    -lgpiod \
     ../code/*.c \
     tco_libd.a \
     -o tco_mission_control.bin \
