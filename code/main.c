@@ -9,7 +9,7 @@
 int log_level = LOG_INFO | LOG_DEBUG | LOG_ERROR;
 
 #define LINES_PER_CHIP 32
-const int PINS[PIN_COUNT] = {73, 138, 140, 7, 0};
+const int PINS[PIN_COUNT] = {73, 138, 140, 7, 8};
 
 int main(int argc, const char *argv[]) 
 {
