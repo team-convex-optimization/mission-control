@@ -1,0 +1,3 @@
+[submodule "tco-libd"]
+	path = lib/tco_libd
+	url = https://github.com/team-convex-optimization/tco-libd
