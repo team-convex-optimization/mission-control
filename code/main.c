@@ -3,12 +3,12 @@
 #include <errno.h>
 #include <gpiod.h>
 
+#include "event_handler.h"
 #include "tco_libd.h"
 
 int log_level = LOG_INFO | LOG_DEBUG | LOG_ERROR;
 
 #define LINES_PER_CHIP 32
-#define PIN_COUNT 5
 const int PINS[PIN_COUNT] = {73, 138, 140, 7, 0};
 
 int main(int argc, const char *argv[]) 
@@ -19,11 +19,9 @@ int main(int argc, const char *argv[])
         return EXIT_FAILURE;
     }
 
-    struct timespec timeout = {0, 0};
+    struct timespec timeout = {0, 10000000}; /* .1 second */
     struct gpio_handle_t lines[PIN_COUNT] = {};
-    struct gpiod_line_bulk bulk;
-    struct gpiod_line_bulk events;
-    gpiod_line_bulk_init(&bulk);
+    struct gpiod_line_event event = {};
 
     for (int i = 0; i < PIN_COUNT; i++) {
         if (gpio_handle_get(&(lines[i]), PINS[i] / LINES_PER_CHIP, GPIO_DIR_NONE, PINS[i] % LINES_PER_CHIP) != ERR_OK) {
@@ -36,17 +34,28 @@ int main(int argc, const char *argv[])
             log_error("failed to request events on pin %d", i);
             goto fail;
         }
-        gpiod_line_bulk_add(&bulk, lines[i].line);
     }
 
-    timeout.tv_sec = 1;
-    timeout.tv_nsec = 0;
+    log_info("Began waiting for events on switch pins");
 
-    // if(gpiod_line_event_wait_bulk(&bulk, &timeout, &events) == -1)
-    // {
-    //     perror("gpiod_line_event_wait_bulk");
-    //     goto fail;
-    // }
+    while (1) {
+        for (int i = 0; i < PIN_COUNT; i++) {
+            int ret = gpiod_line_event_wait(lines[i].line, &timeout);
+            switch (ret)
+            {
+                case -1:
+                    log_error("failed to get event on line");
+                    break;
+                case 1:
+                    if (gpiod_line_event_read(lines[i].line, &event) < 1) {
+                        log_error("failed to read event for pin %d", i);
+                    }
+                    handle_event(PINS[i], &event);
+                default:
+                    break;
+            }
+        }
+    }
 
     return 0;
 fail:

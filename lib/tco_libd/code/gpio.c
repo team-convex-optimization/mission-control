@@ -52,6 +52,8 @@ error_t gpio_handle_get(gpio_handle_t *const handle, uint8_t const chip_id, enum
             return ERR_GPIO_CTRL;
         }
         break;
+    default: /* Some other custom case */
+        break;
     }
 
     return ERR_OK;
