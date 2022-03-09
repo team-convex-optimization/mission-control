@@ -1,6 +1,6 @@
 #!/bin/bash
 
-bash scripts/clean.sh
+bash ~/mission-control/scripts/clean.sh
 
 pushd ~/
     ./tco-actuationd/build/tco_actuationd.bin &
@@ -8,4 +8,4 @@ pushd ~/
     ./tco-sensord/build/tco_sensord.bin &
 popd
 
-echo "DONE"
+wall "[Mission Control] Started fundamentals..."
