@@ -5,7 +5,7 @@ To let this happens, please ensure this program is `System Setup` correctly.
 
 ## System Setup
 
-1) Give the scripts the required permission `chmod +x scripts/*.sh`
-2) Add `launch_script.py &` to /etc/rc.local
+1) Build the program with `./build.sh` (be sure to give the e`x`ecute flag first
+2) run `crontab -e` and add `@reboot <path to mission control bin> &>/dev/null 2>&1
 
 That's it! (in theory)
