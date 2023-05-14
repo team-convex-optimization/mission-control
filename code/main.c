@@ -34,6 +34,11 @@ int main(int argc, const char *argv[], const char *env[])
             log_error("failed to request events on pin %d", i);
             goto fail;
         }
+        
+        if (gpiod_line_request_input_flags(lines[i].line, consumer, GPIOD_LINE_REQUEST_FLAG_BIAS_PULL_DOWN) != 0) {
+            log_error("failed to set pull-down resistor on pin %d", i);
+            goto fail;
+        }
     }
 
     log_info("Began waiting for events on switch pins");
